@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useMultiForm } from "./hook/use-multi-form";
+import { LoginForm } from "./features/login-form/";
+import { RandomPasswordForm } from "./features/random-password-form/";
+import { IntroForm } from "./features/intro-form/";
 
+const componentsArray = [LoginForm, RandomPasswordForm, IntroForm];
 function App() {
+  const {
+    componentIdx,
+    componentsArrayLength,
+    currentComponent: CurrentComponent,
+    goToPrevForm,
+    goToNextForm,
+  } = useMultiForm(componentsArray);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1 style={{ fontSize: "3rem" }}>Multi-step Form</h1>
+      <CurrentComponent />
+      <span>
+        {componentIdx + 1} / {componentsArrayLength}
+      </span>
+      <button onClick={goToPrevForm}>Prev</button>
+      <button onClick={goToNextForm}>Next</button>
+    </>
   );
 }
 
